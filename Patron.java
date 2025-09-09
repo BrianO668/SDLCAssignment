@@ -1,4 +1,10 @@
-//Class for storing and retrieving patron information
+/*
+Brian Oldham
+CEN3024C-14877
+09SEP2025
+MainMenu.java
+This class containerizes the necessary information for patrons in our system
+ */
 public class Patron {
     private int IDNum; //Storage variables
     private String firstName;
