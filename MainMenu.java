@@ -1,3 +1,11 @@
+/*
+Brian Oldham
+CEN3024C-14877
+09SEP2025
+MainMenu.java
+This class contains the main menu options and the functions of each option. It also contains the ArrayList for locally
+storing all instances of Patron added by the user
+ */
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -46,21 +54,27 @@ public class MainMenu {
         }
     }
 
-    private static void ManualAdd() { //Function for adding a patron manually
+    /*
+    ManualAdd, takes no arguments
+    prompts the user for information about a patron, puts info into patron instance
+    adds instance to ArrayList
+    Returns nothing
+     */
+    private static void ManualAdd() {
         int IDNum; //Need to define these at the start to keep them in scope
         double fineAmount;
         boolean flag = true;
 
         while (flag == true){ //Sentinel loop to keep us in the ManualAdd function until the user no longer wishes to add patrons
             System.out.println("\nPlease enter patron's ID number: ");
-            while (true) { //Just like the menu while-loop, keeps programming from exploding form mismatched input
+            while (true) { //Just like the menu while-loop, keeps programming from crashing from mismatched input
                 try {
                     IDNum = scanner.nextInt();
                     scanner.nextLine();
                     break; //Once information is successfully received, break out of the while loop and continue the function
                 } catch (InputMismatchException e) {
                     System.out.println("\nPlease enter a valid patron's ID number");
-                    scanner.nextLine(); //Gotta clear these lines
+                    scanner.nextLine();
                 }
             }
 
@@ -85,11 +99,11 @@ public class MainMenu {
 
                     System.out.println("\nPatron added: " + newPatron + "\n");
                     System.out.println("Updated Patrons List:");
-                    ViewAllPatrons(); //Instruction say to print the list after each add
+                    ViewAllPatrons(); //Instructions say to print the list after each add
                     break; //Leave loop once the information has been retrieved
                 } catch (InputMismatchException e) {
                     System.out.println("\nPlease enter a valid fine amount");
-                    scanner.nextLine(); //Please don't forget to do this, I have done so many times
+                    scanner.nextLine();
                 }
             }
             while (true) { //Keep us in this loop until a proper choice has been made
@@ -98,7 +112,7 @@ public class MainMenu {
                     int cont = scanner.next().charAt(0);
 
                     if (cont == 'y' || cont == 'Y') {
-                        flag = true; //Keep the flag true
+                        flag = true;
                         break;
                     } else if (cont == 'n' || cont == 'N') {
                         flag = false; //Set flag to false to break the first sentinel loop
@@ -111,13 +125,21 @@ public class MainMenu {
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("\nPlease enter a valid choice");
-                    scanner.nextLine(); //Don't forget
+                    scanner.nextLine();
                 }
             }
         }
     }
 
-    private static void AddFromFile() { //Function to add a patron from a file, assuming the file is formatted correctly
+    /*
+    AddFromFile, takes no arguments
+    prompts user for filepath input and reads lines of file
+    Separates information with dash delimiter
+    First and last name stored as one and then later split
+    Stores info into patron and pushes into ArrayList
+    Returns nothing
+     */
+    private static void AddFromFile() {
         System.out.print("\nPlease enter the file path: ");
         ArrayList<Patron> tempList = new ArrayList<>();
         String filePath = scanner.nextLine(); //Whatever string the user enters will be used as a filepath for a File object
@@ -149,10 +171,10 @@ public class MainMenu {
                 counter++; //Counter goes up!
             }
 
-            fileScanner.close(); //Close your scanners
+            fileScanner.close();
             System.out.println("\n" + counter + " patrons successfully loaded from file.\n\nUpdated Patron List:");
 
-            ViewAllPatrons(); //Instruction say to print the list after each add
+            ViewAllPatrons(); //Instructions say to print the list after each add
         } catch (FileNotFoundException e) { //Error-catching when the file is wrong or a string is read into an int
             System.out.println("\nError: File not found (" + filePath + ")");
         } catch (NumberFormatException e) {
@@ -160,18 +182,24 @@ public class MainMenu {
         }
     }
 
-    private static void RemovePatron() { //Function for removing a patron
+    /*
+    RemovePatron, takes no arguments
+    Prompts user for ID, iterates through stored Patrons looking for ID
+    Removes first instance with a match
+    Returns nothing
+     */
+    private static void RemovePatron() {
         int patronID; //The ID to be entered by the user
         System.out.println("\nPlease enter patron's ID: ");
-        while (true) { //Keep us looped in for error, like the previous while-loops with try/catches
+        while (true) { //Keep us looped in for errors, like the previous while-loops with try/catches
             try {
                 patronID = scanner.nextInt();
-                scanner.nextLine(); //Always next line
+                scanner.nextLine();
 
                 Patron removedPatron = null; //Declared as null, so we can use it in an if-statement
 
                 for (Patron patron : patrons) { //For-each loop to find a patron with a matching ID number to what was
-                    if (patron.GetIDNum() == patronID) {//entered and then break immediately
+                    if (patron.GetIDNum() == patronID) {
                         removedPatron = patron;
 
                         break;
@@ -183,21 +211,26 @@ public class MainMenu {
                     System.out.println("\nRemoved " + removedPatron);
 
                     System.out.println("\nUpdated Patrons List:");
-                    ViewAllPatrons(); //Instruction say to print the list after each add
+                    ViewAllPatrons(); //Instructions say to print the list after each add
                 } else { //If null, inform the user that no patron was found and leave
                     System.out.println("No patron with ID: " + patronID + " was found in the system");
                     System.out.println("----Returning to main menu----");
                 }
                 break; //Exit the while-loop
             }
-            catch (InputMismatchException e) { //Please don't enter strings into my int variable
+            catch (InputMismatchException e) { //Catches strings entered into the int
                 System.out.println("\nPlease enter a valid patron's ID number");
-                scanner.nextLine(); //I probably forgot this every time I wrote it and ran the program afterward
+                scanner.nextLine();
             }
         }
     }
 
-    private static void ViewAllPatrons() { //Function to view all patrons in the system
+    /*
+    ViewAllPatrons, takes no arguments
+    Shows all instances of Patron in the main ArrayList
+    Waits for user input to return to the main menu unless the list is empty
+     */
+    private static void ViewAllPatrons() {
         if (patrons.isEmpty()){ //If our ArrayList is empty, inform the user and return to main
             System.out.println("\nThere are no patrons in the system\n----Returning to main menu----");
         }
