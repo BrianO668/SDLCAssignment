@@ -2,7 +2,7 @@
 Brian Oldham
 CEN3024C-14877
 09SEP2025
-MainMenu.java
+Patron.java
 This class containerizes the necessary information for patrons in our system
  */
 public class Patron {
@@ -71,3 +71,4 @@ public class Patron {
         return IDNum + "\t\t\t\t\t" + firstName + lastName + address + "\t" + fineAmount;
     }
 }
+
